@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/backend_user")
@@ -28,5 +29,11 @@ public class Backend_UserController {
             request.setAttribute("error","用户名不存在!");
             return "forward:/backendlogin.jsp";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/backendlogin.jsp";
     }
 }
