@@ -8,20 +8,20 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					APP 审核列表 <i class="fa fa-user"></i><small>${userSession.userName}
+					APP 审核列表 <i class="fa fa-user"></i><small>${backend_user.userName}
 						- 您可以通过搜索或者其他的筛选项对APP的信息进行审核操作。^_^</small>
 				</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="list">
-					<input type="hidden" name="pageIndex" value="1" />
+				<form method="post" action="/app_check/list" id="form">
+					<input type="hidden" name="pageNo" value="1" id="pageNo"/>
 			    <ul>
 					<li>
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">软件名称</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input name="querySoftwareName" type="text" class="form-control col-md-7 col-xs-12" value="${querySoftwareName }">
+								<input name="softwareName" type="text" class="form-control col-md-7 col-xs-12" value="${app_info.softwareName}">
 							</div>
 						</div>
 					</li>
@@ -30,14 +30,11 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">所属平台</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select name="queryFlatformId" class="form-control">
-									<c:if test="${flatFormList != null }">
+								<select name="flatformId" class="form-control">
 									   <option value="">--请选择--</option>
-									   <c:forEach var="dataDictionary" items="${flatFormList}">
-									   		<option <c:if test="${dataDictionary.valueId == queryFlatformId }">selected="selected"</c:if>
-									   		value="${dataDictionary.valueId}">${dataDictionary.valueName}</option>
-									   </c:forEach>
-									</c:if>
+										<c:forEach var="flat" items="${app_flatform}">
+											<option value="${flat.valueId}" <c:if test="${app_info.flatformId==flat.valueId}">selected</c:if>>${flat.valueName}</option>
+										</c:forEach>
         						</select>
 							</div>
 						</div>
@@ -46,14 +43,11 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">一级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select id="queryCategoryLevel1" name="queryCategoryLevel1" class="form-control">
-									<c:if test="${categoryLevel1List != null }">
+								<select name="categoryLevel1" id="queryCategoryLevel1"  class="form-control">
 									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel1List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel1 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+									<c:forEach var="temp" items="${category01}">
+										<option value="${temp.id}" <c:if test="${app_info.categoryLevel1==temp.id}">selected</c:if>>${temp.categoryName}</option>
+									</c:forEach>
         						</select>
 							</div>
 						</div>
@@ -63,14 +57,11 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">二级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 							<input type="hidden" name="categorylevel2list" id="categorylevel2list"/>
-        						<select name="queryCategoryLevel2" id="queryCategoryLevel2" class="form-control">
-        							<c:if test="${categoryLevel2List != null }">
+        						<select name="categoryLevel2" id="queryCategoryLevel2" class="form-control">
 									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel2List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel2 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+										<c:forEach var="temp" items="${category2}">
+											<option value="${temp.id}" <c:if test="${app_info.categoryLevel2==temp.id}">selected</c:if>>${temp.categoryName}</option>
+										</c:forEach>
         						</select>
 							</div>
 						</div>
@@ -79,14 +70,11 @@
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">三级分类</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-        						<select name="queryCategoryLevel3" id="queryCategoryLevel3" class="form-control">
-        							<c:if test="${categoryLevel3List != null }">
+        						<select name="categoryLevel3" id="queryCategoryLevel3" class="form-control">
 									   <option value="">--请选择--</option>
-									   <c:forEach var="appCategory" items="${categoryLevel3List}">
-									   		<option <c:if test="${appCategory.id == queryCategoryLevel3 }">selected="selected"</c:if>
-									   		value="${appCategory.id}">${appCategory.categoryName}</option>
-									   </c:forEach>
-									</c:if>
+										<c:forEach var="temp" items="${category3}">
+											<option value="${temp.id}" <c:if test="${app_info.categoryLevel3==temp.id}">selected</c:if>>${temp.categoryName}</option>
+										</c:forEach>
         						</select>
 							</div>
 						</div>
@@ -156,24 +144,24 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="appInfo" items="${appInfoList }" varStatus="status">
-									<tr role="row" class="odd">
-										<td tabindex="0" class="sorting_1">${appInfo.softwareName}</td>
-										<td>${appInfo.APKName }</td>
-										<td>${appInfo.softwareSize }</td>
-										<td>${appInfo.flatformName }</td>
-										<td>${appInfo.categoryLevel1Name } -> ${appInfo.categoryLevel2Name } -> ${appInfo.categoryLevel3Name }</td>
-										<td>${appInfo.statusName }</td>
-										<td>${appInfo.downloads }</td>
-										<td>${appInfo.versionNo }</td>
+									<c:forEach var="temp" items="${list}">
+										<tr role="row" class="odd">
+										<td tabindex="0" class="sorting_1">${temp.softwareName}</td>
+										<td>${temp.APKName}</td>
+										<td>${temp.softwareSize}</td>
+										<td>${temp.pingtaiName}</td>
+										<td><span id="appInfoStatus"> ${temp.level1Name} -> ${temp.level2Name} -> ${temp.level3Name}</span></td>
+										<td>${temp.statusName}</td>
+										<td>${temp.downloads}</td>
+										<td>${temp.versionName}</td>
 										<td>
 										<button type="button" class="btn btn-default checkApp" 
-											appinfoid="${appInfo.id }" versionid="${appInfo.versionId }" status="${appInfo.status }" 
-											statusname="${appInfo.statusName }"											
+											appinfoid="" versionid="" status=""
+											statusname=""
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="查看并审核APP">审核</button>
 										</td>
 									</tr>
-								</c:forEach>
+									</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -181,37 +169,33 @@
 				<div class="row">
 					<div class="col-sm-5">
 						<div class="dataTables_info" id="datatable-responsive_info"
-							role="status" aria-live="polite">共${pages.totalCount }条记录
-							${pages.currentPageNo }/${pages.totalPageCount }页</div>
+							role="status" aria-live="polite">共 ${pageCount} 条记录
+							${currentNo}/ ${currentPage}页</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="dataTables_paginate paging_simple_numbers"
 							id="datatable-responsive_paginate">
 							<ul class="pagination">
-								<c:if test="${pages.currentPageNo > 1}">
 									<li class="paginate_button previous"><a
-										href="javascript:page_nav(document.forms[0],1);"
+										href="javascript:page($('#form'),1);"
 										aria-controls="datatable-responsive" data-dt-idx="0"
 										tabindex="0">首页</a>
 									</li>
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo-1});"
+										href="javascript:page($('#form'),${currentNo-1});"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">上一页</a>
 									</li>
-								</c:if>
-								<c:if test="${pages.currentPageNo < pages.totalPageCount }">
 									<li class="paginate_button "><a
-										href="javascript:page_nav(document.forms[0],${pages.currentPageNo+1 });"
+										href="javascript:page($('#form'),${currentNo+1});"
 										aria-controls="datatable-responsive" data-dt-idx="1"
 										tabindex="0">下一页</a>
 									</li>
 									<li class="paginate_button next"><a
-										href="javascript:page_nav(document.forms[0],${pages.totalPageCount });"
+										href="javascript:page($('#form'),${currentPage});"
 										aria-controls="datatable-responsive" data-dt-idx="7"
 										tabindex="0">最后一页</a>
 									</li>
-								</c:if>
 							</ul>
 						</div>
 					</div>
@@ -223,5 +207,52 @@
 </div>
 </div>
 <%@include file="common/footer.jsp"%>
-<script src="${pageContext.request.contextPath }/statics/localjs/rollpage.js"></script>
 <script src="${pageContext.request.contextPath }/statics/localjs/applist.js"></script>
+<script src="${pageContext.request.contextPath}/statics/js/jquery-1.8.3.js"></script>
+<script>
+    $("#queryCategoryLevel1").change(function () {
+        var queryCategoryLevel1 = $("#queryCategoryLevel1").val();
+        if(queryCategoryLevel1!=""&&queryCategoryLevel1!=null){
+            $.post("/app_category/category","id="+queryCategoryLevel1,callBack,"json");
+            function callBack(data) {
+                $("#queryCategoryLevel2").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i =0;i<data.length;i++){
+                    options += "<option value=\""+data[i].id+"\">"+data[i].categoryName+"</option>";
+                }
+                $("#queryCategoryLevel2").html(options);
+            }
+        }else{
+            $("#queryCategoryLevel2").html("");
+            var options = "<option value=\"\">--请选择--</option>";
+            $("#queryCategoryLevel2").html(options);
+        }
+        $("#queryCategoryLevel3").html("");
+        var options = "<option value=\"\">--请选择--</option>";
+        $("#queryCategoryLevel3").html(options);
+    });
+
+    $("#queryCategoryLevel2").change(function () {
+        var queryCategoryLevel2 = $("#queryCategoryLevel2").val();
+        if(queryCategoryLevel2!=""&&queryCategoryLevel2!=null){
+            $.post("/app_category/category","id="+queryCategoryLevel2,callBack,"json");
+            function callBack(data) {
+                $("#queryCategoryLevel3").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i =0;i<data.length;i++){
+                    options += "<option value=\""+data[i].id+"\">"+data[i].categoryName+"</option>";
+                }
+                $("#queryCategoryLevel3").html(options);
+            }
+        }else{
+            $("#queryCategoryLevel3").html("");
+            var options = "<option value=\"\">--请选择--</option>";
+            $("#queryCategoryLevel3").html(options);
+        }
+    });
+
+    function page(form,index) {
+        $("#pageNo").val(index);
+        form.submit();
+    }
+</script>

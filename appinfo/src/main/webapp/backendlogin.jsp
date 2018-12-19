@@ -41,7 +41,9 @@
                 <input type="password" class="form-control" name="userPassword" placeholder="请输入密码" required="" />
               </div>
               <span>${error }</span>
+              <button type="button" id="ret" class="glyphicon glyphicon-menu-left" style="height: 34px;width: 34px;"/>
               <div>
+
               	<button type="submit" class="btn btn-success">登     录</button>
               	<button type="reset" class="btn btn-default">重　填</button>
               </div>
@@ -58,5 +60,11 @@
         </div>
       </div>
     </div>
+  <script src="statics/js/jquery-1.8.3.js"></script>
+  <script>
+    $("#ret").click(function () {
+        location.href="index.jsp";
+    })
+  </script>
   </body>
 </html>
