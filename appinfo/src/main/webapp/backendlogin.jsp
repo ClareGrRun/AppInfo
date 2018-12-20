@@ -47,15 +47,7 @@
               	<button type="submit" class="btn btn-success">登     录</button>
               	<button type="reset" class="btn btn-default">重　填</button>
               </div>
-
               <div class="clearfix"></div>
-
-              <div class="separator">
-                <div>
-                  <p>©2016 All Rights Reserved. </p>
-                </div>
-              </div>
-            </form>
           </section>
         </div>
       </div>

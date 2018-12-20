@@ -18,10 +18,23 @@ public class App_CategoryController {
     @Autowired
     private App_CategoryService app_categoryService;
 
+    /**
+     * 动态加载三级分类
+     * @param id
+     * @return
+     */
     @RequestMapping("category")
     @ResponseBody
     public Object category(String id) {
         List<App_category> category = app_categoryService.parentCategory(Integer.parseInt(id));
         return category;
     }
+
+    @RequestMapping("categoryParent")
+    @ResponseBody
+    public Object categoryParent() {
+        List<App_category> category = app_categoryService.category01();
+        return category;
+    }
+
 }

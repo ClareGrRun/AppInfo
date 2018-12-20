@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>查看APP信息 <i class="fa fa-user"></i><small>${devUserSession.devName}</small></h2>
+        <h2>查看APP信息 <i class="fa fa-user"></i><small>${dev_user.devName}</small></h2>
              <div class="clearfix"></div>
       </div>
       <div class="x_title">
@@ -71,7 +71,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">所属平台 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.flatformName}" readonly="readonly">
+              	value="${appInfo.pingtaiName}" readonly="readonly">
             
             </div>
           </div>
@@ -79,7 +79,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="select">所属分类 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="text" class="form-control col-md-7 col-xs-12" 
-              	value="${appInfo.categoryLevel1Name} --> ${appInfo.categoryLevel2Name} --> ${appInfo.categoryLevel3Name}" readonly="readonly">
+              	value="${appInfo.level1Name} --> ${appInfo.level2Name} --> ${appInfo.level3Name}" readonly="readonly">
             </div>
           </div>
           <div class="item form-group">
@@ -165,16 +165,16 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="appVersion" items="${appVersionList }" varStatus="status">
+							<c:forEach var="version" items="${app_version }">
 								<tr role="row" class="odd">
-									<td tabindex="0" class="sorting_1">${appVersion.appName}</td>
-									<td>${appVersion.versionNo }</td>
-									<td>${appVersion.versionSize }</td>
-									<td>${appVersion.publishStatusName }</td>
+									<td tabindex="0" class="sorting_1">${version.appName}</td>
+									<td>${version.versionNo }</td>
+									<td>${version.versionSize }</td>
+									<td>${version.publishStatusName }</td>
 									<td>
-									<a href="${appVersion.downloadLink }">${appVersion.apkFileName }</a>
+									<a href="${version.downloadLink }">${version.apkFileName }</a>
 									</td>
-									<td><fmt:formatDate value="${appVersion.modifyDate }" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${version.modifyDate }" pattern="yyyy-MM-dd"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

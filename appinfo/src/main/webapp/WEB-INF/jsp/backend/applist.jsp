@@ -207,7 +207,6 @@
 </div>
 </div>
 <%@include file="common/footer.jsp"%>
-<script src="${pageContext.request.contextPath }/statics/localjs/applist.js"></script>
 <script src="${pageContext.request.contextPath}/statics/js/jquery-1.8.3.js"></script>
 <script>
     $("#queryCategoryLevel1").change(function () {

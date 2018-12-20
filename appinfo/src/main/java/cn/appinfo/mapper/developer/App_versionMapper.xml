@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.appinfo.mapper.developer.App_versionMapper">
+    <select id="version" resultType="app_version">
+        SELECT a.*,
+        (SELECT valueName FROM data_dictionary b WHERE b.valueId=a.`publishStatus` AND typeName='发布状态') AS publishStatusName,
+        (SELECT softwareName FROM app_info c where c.id=a.appId) AS appName
+         FROM app_version a
+         where appId=#{id} order by creationDate desc
+    </select>
+</mapper>

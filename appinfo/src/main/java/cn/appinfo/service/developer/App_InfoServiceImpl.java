@@ -22,4 +22,24 @@ public class App_InfoServiceImpl implements App_InfoService{
     public int appinfoCount(App_info app_info) {
         return app_infoMapper.appinfoCount(app_info);
     }
+
+    @Override
+    public int addAppinfo(App_info app_info) {
+        return app_infoMapper.addAppinfo(app_info);
+    }
+
+    @Override
+    public App_info info(Integer id) {
+        return app_infoMapper.info(id);
+    }
+
+    @Override
+    public int AppinfoCount(String softwareName, String APKName) {
+        return app_infoMapper.AppinfoCount(softwareName,APKName);
+    }
+
+    @Override
+    public int AppinfoModify(App_info app_info) {
+        return app_infoMapper.AppinfoModify(app_info);
+    }
 }

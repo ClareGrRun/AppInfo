@@ -14,6 +14,14 @@ import javax.servlet.http.HttpSession;
 public class Backend_UserController {
     @Autowired
     private Backend_userService backend_userService;
+
+    /**
+     * 后台管理员登录
+     * @param userCode
+     * @param userPassword
+     * @param request
+     * @return
+     */
     @RequestMapping("/login")
     public String login(String userCode, String userPassword, HttpServletRequest request){
         Backend_user backend_user = backend_userService.login(userCode);
@@ -31,6 +39,11 @@ public class Backend_UserController {
         }
     }
 
+    /**
+     * 后台管理员注销
+     * @param session
+     * @return
+     */
     @RequestMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();

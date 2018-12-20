@@ -104,7 +104,7 @@
 				class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 				<div class="row">
 					<div class="col-sm-12">
-					<a href="" class="btn btn-success btn-sm">新增APP基础信息</a>
+					<a href="/app_info/add" class="btn btn-success btn-sm">新增APP基础信息</a>
 						<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 							cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
 							<thead>
@@ -169,26 +169,26 @@
 
                       <ul class="dropdown-menu" role="menu">
                         <li>
-                        	<%--<c:choose>--%>
-											<%--<c:when test="${appInfo.status == 2 || appInfo.status == 5}">--%>
-												<a class="saleSwichOpen" saleSwitch="open" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
-											<%--</c:when>--%>
-											<%--<c:when test="${appInfo.status == 4}">--%>
-												<a class="saleSwichClose" saleSwitch="close" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
-											<%--</c:when>--%>
-										<%--</c:choose>--%>
+                        	<c:choose>
+								<c:when test="${temp.status == 2 || temp.status == 5}">
+									<a class="saleSwichOpen" saleSwitch="open" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
+								</c:when>
+								<c:when test="${temp.status == 4}">
+									<a class="saleSwichClose" saleSwitch="close" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
+								</c:when>
+							</c:choose>
                         </li>
                         <li><a class="addVersion" appinfoid="" data-toggle="tooltip" data-placement="top" title="" data-original-title="新增APP版本信息">新增版本</a>
                         </li>
                         <li><a class="modifyVersion"
-											appinfoid="" versionid="" status="}"
-											statusname="$"
+											appinfoid="${temp.id}" versionid="${temp.versionId}" status="${temp.status}"
+											statusname="${temp.statusName}"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP最新版本信息">修改版本</a>
                         </li>
                         <li><a  class="modifyAppInfo"
-											appinfoid="" status="" statusname=""
+											appinfoid="${temp.id}" status="${temp.status}" statusname="${temp.statusName}"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP基础信息">修改</a></li>
-                        <li><a  class="viewApp" appinfoid=  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
+                        <li><a  class="viewApp" appinfoid="${temp.id}"  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
 						<li><a  class="deleteApp" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="删除APP基础信息以及全部版本信息">删除</a></li>
                       </ul>
                     </div>
@@ -240,7 +240,6 @@
 </div>
 </div>
 <%@include file="common/footer.jsp"%>
-<script src="${pageContext.request.contextPath }/statics/localjs/appinfolist.js"></script>
 <script src="${pageContext.request.contextPath}/statics/js/jquery-1.8.3.js"></script>
 <script>
 	$("#queryCategoryLevel1").change(function () {
@@ -288,4 +287,19 @@
 		$("#pageNo").val(index);
 		form.submit();
     }
+
+    $(".modifyAppInfo").click(function () {
+        var id = $(this).attr("appinfoid");
+		var stauts = $(this).attr("status");
+		var stautsName = $(this).attr("statusname");
+		if(stauts == "1" || stauts == "3"){
+		    location.href="/app_info/modify?id="+id;
+		}else{
+            alert("该APP应用的状态为：【"+stautsName+"】,不能修改！");
+        }
+    });
+    $(".viewApp").click(function () {
+		var id = $(this).attr("appinfoid");
+		location.href="/app_info/view?id="+id;
+    });
 </script>

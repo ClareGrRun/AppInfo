@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>新增APP基础信息 <i class="fa fa-user"></i><small>${devUserSession.devName}</small></h2>
+        <h2>新增APP基础信息 <i class="fa fa-user"></i><small>${dev_user.devName}</small></h2>
              <div class="clearfix"></div>
       </div>
       <div class="x_content">
@@ -19,14 +19,14 @@
          </div>
        </div> -->
            <div class="clearfix"></div>
-        <form class="form-horizontal form-label-left" action="appinfoaddsave" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal form-label-left" action="/app_info/add" method="post" enctype="multipart/form-data">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="softwareName" class="form-control col-md-7 col-xs-12" 
                data-validate-length-range="20" data-validate-words="1" name="softwareName"  required="required"
-               placeholder="请输入软件名称" type="text">
+               type="text">
             </div>
           </div>
           <div class="item form-group">
@@ -35,7 +35,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="APKName" class="form-control col-md-7 col-xs-12" 
               	data-validate-length-range="20" data-validate-words="1" name="APKName"   required="required"
-              	placeholder="请输入APK名称" type="text">
+              	 type="text">
             </div>
           </div>
           
@@ -45,7 +45,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="supportROM" class="form-control col-md-7 col-xs-12" name="supportROM" 
               	data-validate-length-range="20" data-validate-words="1"   required="required"
-              	placeholder="请输入支持的ROM" type="text">
+              	 type="text">
             </div>
           </div>
           <div class="item form-group">
@@ -54,15 +54,15 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="interfaceLanguage" class="form-control col-md-7 col-xs-12" 
               data-validate-length-range="20" data-validate-words="1" name="interfaceLanguage"   required="required"
-              placeholder="请输入软件支持的界面语言" type="text">
+               type="text">
             </div>
           </div>
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">软件大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="number" id="softwareSize" name="softwareSize"   required="required" onkeyup="value=value.replace(/[^\d]/g,'')"
-              data-validate-minmax="10,500"  placeholder="请输入软件大小，单位为Mb" class="form-control col-md-7 col-xs-12">
+              <input type="number" id="softwareSize" name="softwareSize"   required="required"
+                     data-validate-minmax="10,500"   class="form-control col-md-7 col-xs-12">
             </div>
           </div>
           
@@ -71,21 +71,25 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input type="number" id="downloads" name="downloads"   required="required"
-              data-validate-minmax="10,500"  placeholder="请输入下载次数" class="form-control col-md-7 col-xs-12">
+                     data-validate-minmax="10,500" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
           
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">所属平台 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="flatformId" id="flatformId" class="form-control"   required="required"></select>
+              <select name="flatformId" id="flatformId" class="form-control"   required="required">
+
+              </select>
             </div>
           </div>
           
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="select">一级分类 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <select name="categoryLevel1" id="categoryLevel1" class="form-control"   required="required"> </select>
+              <select name="categoryLevel1" id="categoryLevel1" class="form-control"   required="required">
+
+              </select>
             </div>
           </div>
           
@@ -113,15 +117,15 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">应用简介 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <textarea id="appInfo" name="appInfo"     required="required"
-              placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12"></textarea>
+              <textarea id="appInfo" name="appInfo" required="required"
+                        class="form-control col-md-7 col-xs-12"></textarea>
             </div>
           </div>
            <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">LOGO图片 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="file" class="form-control col-md-7 col-xs-12" name="a_logoPicPath"  required="required" id="a_logoPicPath"/>
+            <input type="file" class="form-control col-md-7 col-xs-12" name="attach"  required="required" id="a_logoPicPath"/>
             ${fileUploadError }
             </div>
           </div>
@@ -139,4 +143,99 @@
   </div>
 </div>
 <%@include file="common/footer.jsp"%>
-<script src="${pageContext.request.contextPath }/statics/localjs/appinfoadd.js"></script>
+<script src="${pageContext.request.contextPath}/statics/js/jquery-1.8.3.js"></script>
+<script>
+    $(function() {
+        //动态加载所属平台列表
+        $.ajax({
+            type: "GET",//请求类型
+            url: "/app_info/dictionary",//请求的url
+            dataType: "json",//ajax接口（请求url）返回的数据类型
+            success: function (data) {//data：返回数据（json对象）
+                $("#flatformId").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i = 0; i < data.length; i++) {
+                    options += "<option value=\"" + data[i].valueId + "\">" + data[i].valueName + "</option>";
+                }
+                $("#flatformId").html(options);
+            },
+            error: function (data) {//当访问时候，404，500 等非200的错误状态码
+                alert("加载平台列表失败！");
+            }
+        });
+        //动态加载一级分类列表
+        $.ajax({
+            type: "GET",//请求类型
+            url: "/app_category/categoryParent",//请求的url
+            dataType: "json",//ajax接口（请求url）返回的数据类型
+            success: function (data) {//data：返回数据（json对象）
+                $("#categoryLevel1").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i = 0; i < data.length; i++) {
+                    options += "<option value=\"" + data[i].id + "\">" + data[i].categoryName + "</option>";
+                }
+                $("#categoryLevel1").html(options);
+            },
+            error: function (data) {//当访问时候，404，500 等非200的错误状态码
+                alert("加载一级分类列表失败！");
+            }
+        });
+    });
+
+        $("#categoryLevel1").change(function () {
+        var categoryLevel1 = $("#categoryLevel1").val();
+        if(categoryLevel1!=""&&categoryLevel1!=null){
+            $.post("/app_category/category","id="+categoryLevel1,callBack,"json");
+            function callBack(data) {
+                $("#categoryLevel2").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i =0;i<data.length;i++){
+                    options += "<option value=\""+data[i].id+"\">"+data[i].categoryName+"</option>";
+                }
+                $("#categoryLevel2").html(options);
+            }
+        }else{
+            $("#categoryLevel2").html("");
+            var options = "<option value=\"\">--请选择--</option>";
+            $("#categoryLevel2").html(options);
+        }
+        $("#categoryLevel3").html("");
+        var options = "<option value=\"\">--请选择--</option>";
+        $("#categoryLevel3").html(options);
+    });
+
+    $("#categoryLevel2").change(function () {
+        var categoryLevel2 = $("#categoryLevel2").val();
+        if(categoryLevel2!=""&&categoryLevel2!=null){
+            $.post("/app_category/category","id="+categoryLevel2,callBack,"json");
+            function callBack(data) {
+                $("#categoryLevel3").html("");
+                var options = "<option value=\"\">--请选择--</option>";
+                for (var i =0;i<data.length;i++){
+                    options += "<option value=\""+data[i].id+"\">"+data[i].categoryName+"</option>";
+                }
+                $("#categoryLevel3").html(options);
+            }
+        }else{
+            $("#categoryLevel3").html("");
+            var options = "<option value=\"\">--请选择--</option>";
+            $("#categoryLevel3").html(options);
+        }
+    });
+    $("#APKName").change(function () {
+        var APKName = $(this).val();
+        if(APKName!=null&&APKName!='') {
+            $.post("/app_info/yz", "APKName=" + APKName, callBack, "json");
+            function callBack(data) {
+                if (data == "false") {
+                    alert("APK名称已经存在!");
+                } else {
+                    alert("APK名称可用!");
+                }
+            }
+        }
+    });
+    $("#back").on("click",function(){
+        window.location.href = "list";
+    });
+</script>

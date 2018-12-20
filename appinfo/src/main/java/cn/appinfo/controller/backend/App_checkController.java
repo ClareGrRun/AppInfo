@@ -22,6 +22,13 @@ public class App_checkController {
     @Autowired
     private App_checkService app_checkService;
 
+    /**
+     * APP审核查询
+     * @param request
+     * @param app_info
+     * @param pageNo
+     * @return
+     */
     @RequestMapping("/list")
     public String list(HttpServletRequest request, App_info app_info,String pageNo){
         request.setAttribute("app_flatform",data_dictionaryService.app_flatform());

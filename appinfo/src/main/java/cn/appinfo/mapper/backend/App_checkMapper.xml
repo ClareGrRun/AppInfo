@@ -10,7 +10,7 @@
         (SELECT categoryName FROM app_category b WHERE a.`categoryLevel3`=b.id) AS level3Name,
         (SELECT versionNo FROM app_version c WHERE a.`versionId`=c.id) AS versionName,
         (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`flatformId` AND typeName='所属平台') AS pingtaiName,
-        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`status` AND typeName='发布状态') AS statusName
+        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`status` AND typeName='APP状态') AS statusName
         FROM app_info a
         <where>
             status = 1

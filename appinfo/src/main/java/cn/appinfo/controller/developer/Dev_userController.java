@@ -14,6 +14,13 @@ public class Dev_userController {
     @Autowired
     private Dev_userService dev_userService;
 
+    /**
+     * 开发者登录
+     * @param devCode
+     * @param devPassword
+     * @param request
+     * @return
+     */
     @RequestMapping("login")
     public String login(String devCode, String devPassword, HttpServletRequest request) {
         Dev_user dev_user = dev_userService.login(devCode, devPassword);
@@ -31,6 +38,11 @@ public class Dev_userController {
         }
     }
 
+    /**
+     * 开发者注销
+     * @param request
+     * @return
+     */
     @RequestMapping("logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();

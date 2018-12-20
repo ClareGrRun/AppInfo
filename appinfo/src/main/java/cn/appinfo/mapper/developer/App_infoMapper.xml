@@ -3,9 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.appinfo.mapper.developer.App_infoMapper">
-    <resultMap id="appinfoList" type="app_info">
-        <result ></result>
-    </resultMap>
     <select id="appinfos" resultType="app_info">
         SELECT a.* ,
         (SELECT categoryName FROM app_category b WHERE a.`categoryLevel1`=b.id) AS level1Name,
@@ -13,7 +10,7 @@
         (SELECT categoryName FROM app_category b WHERE a.`categoryLevel3`=b.id) AS level3Name,
         (SELECT versionNo FROM app_version c WHERE a.`versionId`=c.id) AS versionName,
         (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`flatformId` AND typeName='所属平台') AS pingtaiName,
-        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`status` AND typeName='发布状态') AS statusName
+        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`status` AND typeName='APP状态') AS statusName
         FROM app_info a
         <where>
             createdBy = #{app_info.createdBy}
@@ -63,4 +60,79 @@
             </if>
         </where>
     </select>
+    <insert id="addAppinfo">
+          INSERT INTO app_info
+          (softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,
+          categoryLevel1,categoryLevel2,categoryLevel3,`status`,appInfo,logoLocPath,logoPicPath,creationDate,createdBy,devId)
+          values (#{softwareName},#{APKName},#{supportROM},#{interfaceLanguage},#{softwareSize},#{downloads},#{flatformId},
+          #{categoryLevel1},#{categoryLevel2},#{categoryLevel3},#{status},#{appInfo},#{logoLocPath},#{logoPicPath},now(),#{createdBy},#{devId})
+    </insert>
+    <select id="info" resultType="app_info">
+        SELECT a.* ,
+        (SELECT categoryName FROM app_category b WHERE a.`categoryLevel1`=b.id) AS level1Name,
+        (SELECT categoryName FROM app_category b WHERE a.`categoryLevel2`=b.id) AS level2Name,
+        (SELECT categoryName FROM app_category b WHERE a.`categoryLevel3`=b.id) AS level3Name,
+        (SELECT versionNo FROM app_version c WHERE a.`versionId`=c.id) AS versionName,
+        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`flatformId` AND typeName='所属平台') AS pingtaiName,
+        (SELECT valueName FROM data_dictionary d WHERE d.valueId=a.`status` AND typeName='APP状态') AS statusName
+        FROM app_info a where a.id=#{id}
+    </select>
+    <select id="AppinfoCount" resultType="int">
+        select count(1) from app_info
+        <where>
+            <if test="softwareName!=null">
+                softwareName = #{softwareName}
+            </if>
+            <if test="APKName!=null">
+                APKName = #{APKName}
+            </if>
+        </where>
+    </select>
+    <update id="AppinfoModify">
+        UPDATE app_info  SET
+        <if test="softwareName!=null and softwareName!=''">
+            softwareName=#{softwareName},
+        </if>
+        <if test="supportROM!=null and supportROM!=''">
+            supportROM=#{supportROM},
+        </if>
+        <if test="interfaceLanguage!=null and interfaceLanguage!=''">
+            interfaceLanguage=#{interfaceLanguage},
+        </if>
+        <if test="softwareSize!=null">
+            softwareSize=#{softwareSize},
+        </if>
+        <if test="modifyBy!=null">
+            modifyBy=#{modifyBy},
+        </if>
+        <if test="status!=null">
+            status=#{status},
+        </if>
+        <if test="appInfo!=null and appInfo!=''">
+            appInfo=#{appInfo},
+        </if>
+        <if test="flatformId!=null">
+            flatformId=#{flatformId},
+        </if>
+        <if test="downloads!=null">
+            downloads=#{downloads},
+        </if>
+        <if test="categoryLevel1!=null">
+            categoryLevel1=#{categoryLevel1},
+        </if>
+        <if test="categoryLevel2!=null">
+            categoryLevel2=#{categoryLevel2},
+        </if>
+        <if test="categoryLevel3!=null">
+            categoryLevel3=#{categoryLevel3},
+        </if>
+        <if test="logoPicPath!=null and logoPicPath!=''">
+            logoPicPath=#{logoPicPath},
+        </if>
+        <if test="logoLocPath!=null and logoLocPath!=''">
+            logoLocPath=#{logoLocPath},
+        </if>
+        updateDate = now()
+        where id=#{id}
+    </update>
 </mapper>

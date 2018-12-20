@@ -10,4 +10,11 @@ public interface App_InfoService {
 
     int appinfoCount(App_info app_info);
 
+    int addAppinfo(App_info app_info);
+
+    App_info info(Integer id);
+
+    int AppinfoCount(String softwareName,String APKName);
+
+    int AppinfoModify(App_info app_info);
 }
