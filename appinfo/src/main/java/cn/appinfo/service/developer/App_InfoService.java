@@ -1,7 +1,6 @@
 package cn.appinfo.service.developer;
 
 import cn.appinfo.pojo.App_info;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,4 +16,8 @@ public interface App_InfoService {
     int AppinfoCount(String softwareName,String APKName);
 
     int AppinfoModify(App_info app_info);
+
+    int updateVersionId(Integer id,Integer versionId);
+
+    int delInfo(Integer id);
 }

@@ -12,7 +12,27 @@ public class App_versionServiceImpl implements App_versionService{
     @Autowired
     private App_versionMapper app_versionMapper;
     @Override
-    public List<App_version> version(Integer id) {
-        return app_versionMapper.version(id);
+    public List<App_version> version(Integer id,Integer versionId) {
+        return app_versionMapper.version(id,versionId);
+    }
+
+    @Override
+    public int addVersion(App_version app_version) {
+        return app_versionMapper.addVersion(app_version);
+    }
+
+    @Override
+    public App_version appVersion(Integer id) {
+        return app_versionMapper.appVersion(id);
+    }
+
+    @Override
+    public int modifyVersion(App_version app_version) {
+        return app_versionMapper.modifyVersion(app_version);
+    }
+
+    @Override
+    public int delVersion(Integer id) {
+        return app_versionMapper.delVersion(id);
     }
 }

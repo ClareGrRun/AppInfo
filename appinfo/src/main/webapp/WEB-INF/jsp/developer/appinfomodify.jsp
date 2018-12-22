@@ -142,8 +142,8 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
 				<input type="hidden" id="logoPicPath" name="logoPicPath" value="${modifyinfo.logoPicPath}"/>
             	<input type="hidden" id="logoLocPath" name="logoLocPath" value="${modifyinfo.logoLocPath}"/>
-              <img id="image" src="${modifyinfo.logoPicPath}" style="width: 60px;height: 60px"><a href="/app_info/upload?filename=${modifyinfo.logoPicPath}" id="upload">下载</a> <a id="delPic">删除</a>
-				<div id="logoFile"></div>
+              <img id="image" src="${modifyinfo.logoPicPath}" style="width: 60px;height: 60px"><a href="/app_info/upload?filename=${modifyinfo.logoPicPath}" id="upload">下载</a>${error} <a id="delPic">删除</a>
+              <div id="logoFile"><input type="file" name="attach" id="hide"/></div>
 				${fileUploadError }
             </div>
           </div>
@@ -166,6 +166,11 @@
 <%@include file="common/footer.jsp"%>
 <script src="${pageContext.request.contextPath}/statics/js/jquery-1.8.3.js"></script>
 <script>
+  $(function () {
+      $("#hide").hide();
+  })
+
+
     $("#queryCategoryLevel1").change(function () {
         var queryCategoryLevel1 = $("#queryCategoryLevel1").val();
         if(queryCategoryLevel1!=""&&queryCategoryLevel1!=null){
@@ -209,19 +214,6 @@
     $("#back").on("click",function(){
         window.location.href = "list";
     });
-    $("#softwareName").change(function () {
-        var softwareName = $(this).val();
-        if(softwareName!=null&&softwareName!=''){
-            $.post("/app_info/yz","softwareName="+softwareName,callBack,"json");
-            function callBack(data) {
-                if(data=="false"){
-                    alert("该软件名称已经存在!");
-                }else{
-                    alert("该软件名称可用!");
-                }
-            }
-        }
-    });
     $("#saveAndsend").click(function () {
           $("#status").val("1");
           $("form").submit();
@@ -230,10 +222,10 @@
         var obj = $(this);
         if(confirm("确定要删除吗?")){
           var logoLocPath = $("#logoLocPath").val();
-          var context = $("#context").val();
           $.post("/app_info/delPic","loc="+logoLocPath,callBack,"json");
           function callBack(data) {
               if(data=="true"){
+                  $("#logoFile").html("");
                   $("#logoFile").html("<input type=\"file\" class=\"form-control col-md-7 col-xs-12\" name=\"attach\"  required=\"required\" id=\"a_logoPicPath\"/>");
                   $("#image").hide();
                   $("#upload").hide();

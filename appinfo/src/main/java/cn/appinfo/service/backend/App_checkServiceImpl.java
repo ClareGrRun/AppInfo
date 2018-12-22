@@ -22,4 +22,9 @@ public class App_checkServiceImpl implements App_checkService{
     public int checkCount(App_info app_info) {
         return app_checkMapper.checkCount(app_info);
     }
+
+    @Override
+    public int check(Integer id, Integer status) {
+        return app_checkMapper.check(id,status);
+    }
 }

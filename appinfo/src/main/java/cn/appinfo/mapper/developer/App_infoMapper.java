@@ -17,4 +17,8 @@ public interface App_infoMapper {
     int AppinfoCount(@Param("softwareName") String softwareName,@Param("APKName") String APKName);
 
     int AppinfoModify(App_info app_info);
+
+    int updateVersionId(@Param("id") Integer id,@Param("versionId") Integer versionId);
+
+    int delInfo(Integer id);
 }

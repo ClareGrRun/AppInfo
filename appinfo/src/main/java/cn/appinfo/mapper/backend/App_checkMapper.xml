@@ -54,4 +54,8 @@
             </if>
         </where>
     </select>
+
+    <update id="check">
+        update app_info set status=#{status} where id=#{id}
+    </update>
 </mapper>

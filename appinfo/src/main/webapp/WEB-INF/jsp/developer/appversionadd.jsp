@@ -6,7 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>新增APP版本信息 <i class="fa fa-user"></i><small>${devUserSession.devName}</small></h2>
+        <h2>新增APP版本信息 <i class="fa fa-user"></i><small>${dev_user.devName}</small></h2>
             <div class="clearfix"></div>
       </div>
       <div class="x_title">
@@ -56,7 +56,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="appVersion" items="${appVersionList }" varStatus="status">
+							<c:forEach var="appVersion" items="${versions }">
 								<tr role="row" class="odd">
 									<td tabindex="0" class="sorting_1">${appVersion.appName}</td>
 									<td>${appVersion.versionNo }</td>
@@ -84,8 +84,8 @@
         </div>
         <div class="x_content" style="display: block;">
          <br>
-        <form class="form-horizontal form-label-left" action="addversionsave" method="post" enctype="multipart/form-data">
-           <input type="hidden" name="appId" name="appId" value="${appVersion.appId}">
+        <form class="form-horizontal form-label-left" action="add" method="post" enctype="multipart/form-data">
+           <input type="hidden" name="appId" name="appId" value="${id}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
             </label>
@@ -123,7 +123,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">apk文件 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="file" class="form-control col-md-7 col-xs-12" name="a_downloadLink" id="a_downloadLink"  required="required"/>
+            <input type="file" class="form-control col-md-7 col-xs-12" name="attach" id="a_downloadLink"  required="required"/>
             ${fileUploadError }
             </div>
           </div>

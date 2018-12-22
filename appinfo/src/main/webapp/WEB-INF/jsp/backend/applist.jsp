@@ -155,9 +155,9 @@
 										<td>${temp.downloads}</td>
 										<td>${temp.versionName}</td>
 										<td>
-										<button type="button" class="btn btn-default checkApp" 
-											appinfoid="" versionid="" status=""
-											statusname=""
+										<button class="shenhe" type="button" class="btn btn-default checkApp"
+											appinfoid="${temp.id}" versionid="${temp.versionId}" status="${status}"
+											statusname="${temp.statusName}"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="查看并审核APP">审核</button>
 										</td>
 									</tr>
@@ -254,4 +254,15 @@
         $("#pageNo").val(index);
         form.submit();
     }
+
+	$(".shenhe").click(function () {
+		var obj = $(this);
+		var appinfoId = obj.attr("appinfoid");
+		var versionId = obj.attr("versionid");
+		if(versionId==null||versionId==""){
+		    alert("该APP没有上传最新版本，不能进行审核操作!");
+		}else{
+			location.href="/app_check/shenhe?appinfoId="+appinfoId;
+		}
+    });
 </script>

@@ -8,6 +8,33 @@
         (SELECT valueName FROM data_dictionary b WHERE b.valueId=a.`publishStatus` AND typeName='发布状态') AS publishStatusName,
         (SELECT softwareName FROM app_info c where c.id=a.appId) AS appName
          FROM app_version a
-         where appId=#{id} order by creationDate desc
+         where appId=#{id}
+          <if test="versionId!=null">
+              and a.id!=#{versionId}
+          </if>
+          order by creationDate desc
     </select>
+
+    <insert id="addVersion" useGeneratedKeys="true" keyProperty="id">
+        insert into app_version (appId,versionNo,versionInfo,publishStatus,versionSize,createdBy,creationDate,apkLocPath,apkFileName,downloadLink)
+        VALUES (#{appId},#{versionNo},#{versionInfo},#{publishStatus},#{versionSize},#{createdBy},now(),#{apkLocPath},#{apkFileName},#{downloadLink})
+    </insert>
+
+    <select id="appVersion" resultType="app_version">
+        select a.*,
+        (SELECT valueName FROM data_dictionary b WHERE b.valueId=a.`publishStatus` AND typeName='发布状态') AS publishStatusName,
+        (SELECT softwareName FROM app_info c where c.id=a.appId) AS appName
+        from app_version a
+        where a.id=#{id}
+    </select>
+
+    <update id="modifyVersion">
+        UPDATE app_version set
+        versionInfo=#{versionInfo},versionSize=#{versionSize},modifyBy=#{modifyBy},modifyDate=now(),downloadLink=#{downloadLink},apkLocPath=#{apkLocPath},apkFileName=#{apkFileName}
+        where id =#{id}
+    </update>
+
+    <delete id="delVersion">
+        delete from app_version where appId = #{id}
+    </delete>
 </mapper>

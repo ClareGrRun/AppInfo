@@ -42,4 +42,14 @@ public class App_InfoServiceImpl implements App_InfoService{
     public int AppinfoModify(App_info app_info) {
         return app_infoMapper.AppinfoModify(app_info);
     }
+
+    @Override
+    public int updateVersionId(Integer id, Integer versionId) {
+        return app_infoMapper.updateVersionId(id,versionId);
+    }
+
+    @Override
+    public int delInfo(Integer id) {
+        return app_infoMapper.delInfo(id);
+    }
 }

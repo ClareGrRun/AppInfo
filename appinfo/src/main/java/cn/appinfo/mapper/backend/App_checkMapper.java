@@ -9,4 +9,6 @@ public interface App_checkMapper {
     List<App_info> checkList(@Param("app_info") App_info app_info,@Param("pageNo") Integer pageNo,@Param("pageSize") Integer pageSize);
 
     int checkCount(App_info app_info);
+
+    int check(@Param("id") Integer id,@Param("status") Integer status);
 }

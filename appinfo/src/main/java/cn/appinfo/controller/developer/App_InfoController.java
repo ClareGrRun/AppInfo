@@ -1,9 +1,6 @@
 package cn.appinfo.controller.developer;
 
-import cn.appinfo.pojo.App_category;
-import cn.appinfo.pojo.App_info;
-import cn.appinfo.pojo.Data_dictionary;
-import cn.appinfo.pojo.Dev_user;
+import cn.appinfo.pojo.*;
 import cn.appinfo.service.developer.App_CategoryService;
 import cn.appinfo.service.developer.App_InfoService;
 import cn.appinfo.service.developer.App_versionService;
@@ -105,9 +102,6 @@ public class App_InfoController {
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(App_info app_info, MultipartFile attach, HttpServletRequest request) {
-        if (app_infoService.AppinfoCount(app_info.getSoftwareName(), null) > 0) {
-            return "developer/appinfoadd";
-        }
         if (app_infoService.AppinfoCount(null, app_info.getAPKName()) > 0) {
             return "developer/appinfoadd";
         }
@@ -141,6 +135,7 @@ public class App_InfoController {
             if (flag) {
                 Dev_user user = (Dev_user) request.getSession().getAttribute("dev_user");
                 app_info.setCreatedBy(user.getId());
+                app_info.setDevId(user.getId());
                 if (app_infoService.addAppinfo(app_info) > 0) {
                     return "redirect:/app_info/list";
                 } else {
@@ -247,25 +242,25 @@ public class App_InfoController {
      * 查看APP信息及版本信息
      * @param id
      * @param request
+     * @param version
      * @return
      */
     @RequestMapping("view")
-    public String view(Integer id,HttpServletRequest request){
+    public String view(Integer id,Integer version,HttpServletRequest request){
         request.setAttribute("appInfo",app_infoService.info(id));
-        request.setAttribute("app_version",app_versionService.version(id));
+        request.setAttribute("app_version",app_versionService.version(id,version));
         return "developer/appinfoview";
     }
 
     /**
      * 删除图片
      * @param loc
-     * @param pic
      * @param request
      * @return
      */
     @RequestMapping("delPic")
     @ResponseBody
-    public Object delPic(String loc,String pic,HttpServletRequest request){
+    public Object delPic(String loc,HttpServletRequest request){
         File file = new File(loc);
         file.delete();
         return JSON.toJSON("true");
@@ -292,16 +287,37 @@ public class App_InfoController {
     @RequestMapping("upload")
     public void upload(String filename, HttpServletRequest request, HttpServletResponse response) throws IOException  {
         String path = request.getSession().getServletContext().getRealPath(filename);
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
-        filename = URLEncoder.encode(filename,"UTF-8");
-        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-        response.setContentType("multipart/form-data");
-        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-        int len = 0;
-        while((len = inputStream.read()) != -1){
-            out.write(len);
-            out.flush();
+        if(new File(path).exists()){
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
+            filename = URLEncoder.encode(filename,"UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+            response.setContentType("multipart/form-data");
+            BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+            int len = 0;
+            while((len = inputStream.read()) != -1){
+                out.write(len);
+                out.flush();
+            }
+            out.close();
         }
-        out.close();
+    }
+
+    @RequestMapping("deleteInfo")
+    @ResponseBody
+    public Object deleteInfo(Integer infoId,String logoPicPath,HttpServletRequest request){
+        List<App_version> versions = app_versionService.version(infoId,null);
+            app_versionService.delVersion(infoId);
+            for (int i = 0;i<versions.size();i++){
+                App_version version = versions.get(i);
+                File file = new File(request.getSession().getServletContext().getRealPath("")+version.getDownloadLink());
+                file.delete();
+            }
+            if(app_infoService.delInfo(infoId)>0){
+                File file = new File(request.getSession().getServletContext().getRealPath("")+logoPicPath);
+                file.delete();
+                return JSON.toJSONString(true);
+            }else{
+                return JSON.toJSONString(false);
+        }
     }
 }

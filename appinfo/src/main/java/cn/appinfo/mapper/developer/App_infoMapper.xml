@@ -135,4 +135,11 @@
         updateDate = now()
         where id=#{id}
     </update>
+    <update id="updateVersionId">
+        update app_info set versionId=#{versionId} where id=#{id}
+    </update>
+
+    <delete id="delInfo">
+        DELETE from app_info where id=#{id}
+    </delete>
 </mapper>

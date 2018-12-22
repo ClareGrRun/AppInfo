@@ -171,14 +171,14 @@
                         <li>
                         	<c:choose>
 								<c:when test="${temp.status == 2 || temp.status == 5}">
-									<a class="saleSwichOpen" saleSwitch="open" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
+									<a class="saleSwichOpen" saleSwitch="open" appinfoid="${temp.id}"  appsoftwarename="${temp.softwareName}" data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
 								</c:when>
 								<c:when test="${temp.status == 4}">
-									<a class="saleSwichClose" saleSwitch="close" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
+									<a class="saleSwichClose" saleSwitch="close" appinfoid="${temp.id}"  appsoftwarename="${temp.softwareName}" data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
 								</c:when>
 							</c:choose>
                         </li>
-                        <li><a class="addVersion" appinfoid="" data-toggle="tooltip" data-placement="top" title="" data-original-title="新增APP版本信息">新增版本</a>
+                        <li><a class="addVersion" appinfoid="${temp.id}" data-toggle="tooltip" data-placement="top" title="" data-original-title="新增APP版本信息">新增版本</a>
                         </li>
                         <li><a class="modifyVersion"
 											appinfoid="${temp.id}" versionid="${temp.versionId}" status="${temp.status}"
@@ -188,8 +188,8 @@
                         <li><a  class="modifyAppInfo"
 											appinfoid="${temp.id}" status="${temp.status}" statusname="${temp.statusName}"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP基础信息">修改</a></li>
-                        <li><a  class="viewApp" appinfoid="${temp.id}"  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
-						<li><a  class="deleteApp" appinfoid=  appsoftwarename= data-toggle="tooltip" data-placement="top" title="" data-original-title="删除APP基础信息以及全部版本信息">删除</a></li>
+                        <li><a  class="viewApp" appinfoid="${temp.id}" versionid="${temp.versionId}"  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
+						<li><a  class="deleteApp" appinfoid="${temp.id}"  logoPicPath=${temp.logoPicPath} data-toggle="tooltip" data-placement="top" title="" data-original-title="删除APP基础信息以及全部版本信息">删除</a></li>
                       </ul>
                     </div>
 										</td>
@@ -300,6 +300,42 @@
     });
     $(".viewApp").click(function () {
 		var id = $(this).attr("appinfoid");
-		location.href="/app_info/view?id="+id;
+		var version = $(this).attr("versionid");
+		location.href="/app_info/view?id="+id+"&version="+version;
+    });
+    $(".addVersion").click(function () {
+		var id = $(this).attr("appinfoid");
+		location.href="/app_version/add?id="+id;
+    });
+    $(".modifyVersion").click(function () {
+        var obj = $(this);
+        var status = obj.attr("status");
+        var versionid = obj.attr("versionid");
+        var appinfoid = obj.attr("appinfoid");
+        if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
+            if(versionid == null || versionid == ""){
+                alert("该APP应用无版本信息，请先增加版本信息！");
+            }else{
+                location.href="/app_version/modify?versionId="+versionid+"&id="+appinfoid;
+            }
+        }else{
+            alert("该APP应用的状态为：【"+obj.attr("statusname")+"】,不能修改其版本信息，只可进行【新增版本】操作！");
+        }
+    });
+    $(".deleteApp").click(function () {
+		var obj = $(this);
+		var infoId = obj.attr("appinfoid");
+		var logoPicPath = obj.attr("logoPicPath");
+		if(confirm("将APP的信息及所有版本信息删除，确定要删除吗?")) {
+            $.post("/app_info/deleteInfo", "infoId=" + infoId + "&logoPicPath=" + logoPicPath, callBack, "json");
+            function callBack(data) {
+                if (data=="true") {
+                    alert("删除成功!");
+                    obj.parent().parent().parent().parent().parent().remove();
+                } else {
+                    alert("删除失败!");
+                }
+            }
+        }
     });
 </script>
