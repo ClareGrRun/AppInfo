@@ -4,14 +4,17 @@ import cn.appinfo.mapper.developer.App_versionMapper;
 import cn.appinfo.pojo.App_version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("app_versionService")
+@Transactional
 public class App_versionServiceImpl implements App_versionService{
     @Autowired
     private App_versionMapper app_versionMapper;
     @Override
+    @Transactional(readOnly = true)
     public List<App_version> version(Integer id,Integer versionId) {
         return app_versionMapper.version(id,versionId);
     }
@@ -22,6 +25,7 @@ public class App_versionServiceImpl implements App_versionService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public App_version appVersion(Integer id) {
         return app_versionMapper.appVersion(id);
     }

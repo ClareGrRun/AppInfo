@@ -4,21 +4,25 @@ import cn.appinfo.mapper.developer.App_infoMapper;
 import cn.appinfo.pojo.App_info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("app_InfoService")
+
 public class App_InfoServiceImpl implements App_InfoService{
     @Autowired
     private App_infoMapper app_infoMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<App_info> appinfos(App_info app_info, Integer pageNo,Integer pageSize) {
         pageNo=(pageNo-1)*pageSize;
         return app_infoMapper.appinfos(app_info,pageNo,pageSize);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int appinfoCount(App_info app_info) {
         return app_infoMapper.appinfoCount(app_info);
     }
@@ -29,11 +33,13 @@ public class App_InfoServiceImpl implements App_InfoService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public App_info info(Integer id) {
         return app_infoMapper.info(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int AppinfoCount(String softwareName, String APKName) {
         return app_infoMapper.AppinfoCount(softwareName,APKName);
     }

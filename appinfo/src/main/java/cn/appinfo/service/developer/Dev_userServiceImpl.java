@@ -13,6 +13,7 @@ public class Dev_userServiceImpl implements Dev_userService {
     private Dev_userMapper dev_userMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public Dev_user login(String devCode,String devPassword) {
         return dev_userMapper.login(devCode);
     }
