@@ -155,8 +155,8 @@
 										<td>${temp.APKName}</td>
 										<td>${temp.softwareSize}</td>
 										<td>${temp.pingtaiName}</td>
-										<td><span id="appInfoStatus"> ${temp.level1Name} -> ${temp.level2Name} -> ${temp.level3Name}</span></td>
-										<td>${temp.statusName}</td>
+										<td> ${temp.level1Name} -> ${temp.level2Name} -> ${temp.level3Name}</td>
+										<td><span id="appInfoStatus${temp.id}">${temp.statusName}</span></td>
 										<td>${temp.downloads}</td>
 										<td>${temp.versionName}</td>
 										<td>
@@ -171,10 +171,10 @@
                         <li>
                         	<c:choose>
 								<c:when test="${temp.status == 2 || temp.status == 5}">
-									<a class="saleSwichOpen" saleSwitch="open" appinfoid="${temp.id}"  appsoftwarename="${temp.softwareName}" data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
+									<a class="saleSwichOpen" saleSwitch="open" appinfoid="${temp.id}" stauts="4"  appsoftwarename="${temp.softwareName}"  data-toggle="tooltip" data-placement="top" title="" data-original-title="恭喜您，您的审核已经通过，您可以点击上架发布您的APP">上架</a>
 								</c:when>
 								<c:when test="${temp.status == 4}">
-									<a class="saleSwichClose" saleSwitch="close" appinfoid="${temp.id}"  appsoftwarename="${temp.softwareName}" data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
+									<a class="saleSwichClose" saleSwitch="close" appinfoid="${temp.id}" stauts="5" appsoftwarename="${temp.softwareName}" data-toggle="tooltip" data-placement="top" title="" data-original-title="您可以点击下架来停止发布您的APP，市场将不提供APP的下载">下架</a>
 								</c:when>
 							</c:choose>
                         </li>
@@ -338,4 +338,80 @@
             }
         }
     });
+
+    $(document).on("click",".saleSwichOpen,.saleSwichClose",function(){
+        var obj = $(this);
+        var appinfoid = obj.attr("appinfoid");
+        var saleSwitch = obj.attr("saleSwitch");
+        var stauts = obj.attr("stauts");
+        if("open" === saleSwitch){
+            saleSwitchAjax(appinfoid,obj,stauts);
+        }else if("close" === saleSwitch){
+            if(confirm("你确定要下架您的APP应用【"+obj.attr("appsoftwarename")+"】吗？")){
+                saleSwitchAjax(appinfoid,obj,stauts);
+            }
+        }
+    });
+
+    var saleSwitchAjax = function(appId,obj,stauts){
+        $.ajax({
+            type:"POST",
+            url:"/app_info/jia?appId="+appId+"&stauts="+stauts,
+            dataType:"json",
+            success:function(data){
+                if(data.errorCode === '0'){
+                    if(data.resultMsg === "success"){//操作成功
+                        if("open" === obj.attr("saleSwitch")){
+                            //alert("恭喜您，【"+obj.attr("appsoftwarename")+"】的【上架】操作成功");
+                            $("#appInfoStatus" + obj.attr("appinfoid")).html("已上架");
+                            obj.className="saleSwichClose";
+                            obj.html("下架");
+                            obj.attr("saleSwitch","close");
+                            $("#appInfoStatus" + obj.attr("appinfoid")).css({
+                                'background':'green',
+                                'color':'#fff',
+                                'padding':'3px',
+                                'border-radius':'3px'
+                            });
+                            $("#appInfoStatus" + obj.attr("appinfoid")).hide();
+                            $("#appInfoStatus" + obj.attr("appinfoid")).slideDown(300);
+                        }else if("close" === obj.attr("saleSwitch")){
+                            //alert("恭喜您，【"+obj.attr("appsoftwarename")+"】的【下架】操作成功");
+                            $("#appInfoStatus" + obj.attr("appinfoid")).html("已下架");
+                            obj.className="saleSwichOpem";
+                            obj.html("上架");
+                            obj.attr("saleSwitch","open");
+                            $("#appInfoStatus" + obj.attr("appinfoid")).css({
+                                'background':'red',
+                                'color':'#fff',
+                                'padding':'3px',
+                                'border-radius':'3px'
+                            });
+                            $("#appInfoStatus" + obj.attr("appinfoid")).hide();
+                            $("#appInfoStatus" + obj.attr("appinfoid")).slideDown(300);
+                        }
+                    }else if(data.resultMsg === "failed"){//删除失败
+                        if("open" === obj.attr("saleSwitch")){
+                            alert("对不起，【"+obj.attr("appsoftwarename")+"】的【上架】操作失败");
+                        }else if("close" === obj.attr("saleSwitch")){
+                            alert("对不起，【"+obj.attr("appsoftwarename")+"】的【下架】操作失败");
+                        }
+                    }
+                }else{
+                    if(data.errorCode === 'exception000001'){
+                        alert("对不起，系统出现异常，请联系IT管理员");
+                    }else if(data.errorCode === 'param000001'){
+                        alert("对不起，参数出现错误，您可能在进行非法操作");
+                    }
+                }
+            },
+            error:function(data){
+                if("open" === obj.attr("saleSwitch")){
+                    alert("对不起，【"+obj.attr("appsoftwarename")+"】的【上架】操作失败");
+                }else if("close" === obj.attr("saleSwitch")){
+                    alert("对不起，【"+obj.attr("appsoftwarename")+"】的【下架】操作失败");
+                }
+            }
+        });
+    };
 </script>

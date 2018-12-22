@@ -142,4 +142,16 @@
     <delete id="delInfo">
         DELETE from app_info where id=#{id}
     </delete>
+
+    <update id="updateJia">
+        update app_info SET
+        <if test="stauts==4">
+            onSaleDate=now(),
+        </if>
+        <if test="stauts==5">
+            offSaleDate=now(),
+        </if>
+        status=#{stauts}
+        where id=#{appId}
+    </update>
 </mapper>

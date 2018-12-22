@@ -46,12 +46,6 @@ var saleSwitchAjax = function(appId,obj){
 		url:appId+"/sale.json",
 		dataType:"json",
 		success:function(data){
-			/*
-			 * resultMsg:success/failed
-			 * errorCode:exception000001
-			 * appId:appId
-			 * errorCode:param000001
-			 */
 			if(data.errorCode === '0'){
 				if(data.resultMsg === "success"){//操作成功
 					if("open" === obj.attr("saleSwitch")){

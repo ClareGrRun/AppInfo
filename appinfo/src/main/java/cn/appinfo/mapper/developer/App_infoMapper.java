@@ -21,4 +21,6 @@ public interface App_infoMapper {
     int updateVersionId(@Param("id") Integer id,@Param("versionId") Integer versionId);
 
     int delInfo(Integer id);
+
+    int updateJia(@Param("appId") Integer appId,@Param("stauts") Integer stauts);
 }

@@ -320,4 +320,17 @@ public class App_InfoController {
                 return JSON.toJSONString(false);
         }
     }
+
+    @RequestMapping("jia")
+    @ResponseBody
+    public Object jia(Integer appId,Integer stauts){
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("errorCode","0");
+        if(app_infoService.updateJia(appId,stauts)>0){
+            map.put("resultMsg","success");
+        }else{
+            map.put("resultMsg","failed");
+        }
+        return map;
+    }
 }

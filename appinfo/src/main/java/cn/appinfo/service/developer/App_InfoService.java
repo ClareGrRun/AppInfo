@@ -20,4 +20,6 @@ public interface App_InfoService {
     int updateVersionId(Integer id,Integer versionId);
 
     int delInfo(Integer id);
+
+    int updateJia(Integer appId,Integer stauts);
 }

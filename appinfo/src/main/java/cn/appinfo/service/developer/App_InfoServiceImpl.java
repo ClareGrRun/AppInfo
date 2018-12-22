@@ -52,4 +52,9 @@ public class App_InfoServiceImpl implements App_InfoService{
     public int delInfo(Integer id) {
         return app_infoMapper.delInfo(id);
     }
+
+    @Override
+    public int updateJia(Integer appId, Integer stauts) {
+        return app_infoMapper.updateJia(appId,stauts);
+    }
 }
