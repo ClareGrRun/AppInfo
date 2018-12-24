@@ -132,6 +132,7 @@
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
 			</div>
 			<div id="apkFile">
+
                 <p>${version.apkFileName}&nbsp;&nbsp;<a href="/app_version/upload?filename=${version.downloadLink}">下载</a> &nbsp;&nbsp;
                 <a id="delfile">删除</a></p>
             </div>
@@ -175,5 +176,5 @@
                 }
             }
         }
-    })
+    });
 </script>
